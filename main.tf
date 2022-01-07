@@ -35,6 +35,10 @@ resource "google_compute_instance" "master" {
             type = "pd-balanced"
         }
     }
+    metadata = {
+        startup-script = "${file("./script/k8scp.sh")}"
+        ssh-keys = "joham:${file("./.ssh/cka_id_rsa.pub")}"
+    }
 }
 
 resource "google_compute_instance" "worker" {
@@ -49,5 +53,9 @@ resource "google_compute_instance" "worker" {
             size = 10
             type = "pd-balanced"
         }
+    }
+    metadata = {
+        startup-script = "${file("./script/k8sSecond.sh")}"
+        ssh-keys = "joham:${file("./.ssh/cka_id_rsa.pub")}"
     }
 }
